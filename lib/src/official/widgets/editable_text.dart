@@ -3423,13 +3423,17 @@ class _EditableTextState extends State<_EditableText>
     return selectionOverlay;
   }
 
+  bool _isSelectionWithinTextBounds(TextSelection selection) {
+    return selection.start <= _value.text.length && selection.end <= _value.text.length;
+  }
+
   @pragma('vm:notify-debugger-on-exception')
   void _handleSelectionChanged(
       TextSelection selection, SelectionChangedCause? cause) {
     // We return early if the selection is not valid. This can happen when the
     // text of [EditableText] is updated at the same time as the selection is
     // changed by a gesture event.
-    if (!widget.controller.isSelectionWithinTextBounds(selection)) {
+    if (!_isSelectionWithinTextBounds(selection)) {
       return;
     }
 
